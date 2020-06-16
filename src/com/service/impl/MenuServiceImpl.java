@@ -5,7 +5,9 @@ import com.domain.Menu;
 import com.service.MenuService;
 import orm.SqlSession;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MenuServiceImpl implements MenuService {
 
@@ -36,6 +38,20 @@ public class MenuServiceImpl implements MenuService {
     public void deleteMenu(int mno) {
         List<Menu> menus = dao.findAllMenus();
         this.removeMenu(mno,menus);
+    }
+
+    @Override
+    public void setMenus(int rno, String mnos) {
+        //业务层先清空之前选中的菜单关系
+        dao.deleteRelationship(rno);
+        //再新增新的关系
+        String[] mnoArray = mnos.split(",");
+        for (String mno : mnoArray){
+            Map<String,Integer> params = new HashMap<>();
+            params.put("rno",rno);
+            params.put("mno",Integer.parseInt(mno));
+            dao.addRelationship(params);
+        }
     }
 
     private void removeMenu(int mno,List<Menu> menus){

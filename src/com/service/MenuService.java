@@ -16,4 +16,5 @@ public interface MenuService {
 
     void deleteMenu(int mno);
 
+    void setMenus(int rno,String mnos);
 }

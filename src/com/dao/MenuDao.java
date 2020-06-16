@@ -7,6 +7,7 @@ import orm.annotation.Select;
 import orm.annotation.Update;
 
 import java.util.List;
+import java.util.Map;
 
 public interface MenuDao {
 
@@ -27,4 +28,10 @@ public interface MenuDao {
 
     @Delete("delete from t_menu where mno = #{mno}")
     void deleteMenu(int mno);
+
+    @Delete("delete from t_role_menu where rno = #{rno}")
+    void deleteRelationship(int rno);
+
+    @Insert("insert into t_role_menu values(#{rno},#{mno})")
+    void addRelationship(Map<String,Integer> params);
 }

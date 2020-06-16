@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <script src="js/jquery.js"></script>
+    <script src="js/jquery-3.4.1.min.js"></script>
     <script type="text/javascript">
         $(function () {
             $.post('menuList.do',{},function (menus) {
@@ -20,7 +20,7 @@
 
                             var li = $('<li>');
                             ul.append(li);
-                            li.append('<input type="checkbox"><span>'+menu.mname+'</span>')
+                            li.append('<input type="checkbox" value="'+menu.mno+'"><span>'+menu.mname+'</span>')
 
                             showPreLevelMenus(menu.mno,li);
                         }
@@ -47,13 +47,61 @@
                           okChildren(inputs);
                        }
                        okChildren($(this));
-                       //选中父级
 
+                       //选中父级
+                       function okParent($p) {
+                           var input = $p.parent().parent().prev().prev();
+                           if (input.length == 0){
+                               return;
+                           }
+                           input.prop('checked',flag);
+                           okParent(input);
+                       }
+                       okParent($(this));
                    }else{
                        //选掉
+                       //选掉子菜单
+                       function cancelChildren($p) {
+                           //               span    ul      lis          input
+                            var inputs = $p.next().next().children().children('input');
+                            if (inputs.length == 0)return;
+                            inputs.prop('checked',flag);
+                            cancelChildren(inputs);
+                       }
+                       cancelChildren($(this));//选掉当前菜单的子菜单
+
+                       //选掉父菜单
+                       function cancelParent($p) {
+                           //               li      ul      span    input
+                           var input = $p.parent().parent().prev().prev();
+                           if (input.length == 0)return;
+                            //                  span  ul      lis
+                           var inputs = input.next().next().children().children('input:checked');
+                           if (inputs.length > 0)return;
+
+                           input.prop('checked',flag);
+                           cancelParent(input);
+                       }
+                       cancelParent($(this));//选掉当前菜单的父菜单
                    }
                 });
             },'json');
+            
+            //为保存按钮增加事件
+            $('#saveBtn').click(function () {
+                var rno = $('#rno').val();
+                var mnos = '';//拼装所有选中的菜单编号
+                $('#menuBox input:checked').each(function (i,e) {
+                    var mno = $(e).val();
+                    mnos += mno + ',';
+                });
+                alert(mnos);
+
+                $.post('setMenus.do',{'rno':rno,'mnos':mnos},function (e) {
+                    alert('保存成功');
+                },'json');
+            });
+            
         });
     </script>
     <style type="text/css">
@@ -72,6 +120,7 @@
 <body>
     <h2 align="center">为【${param.rname}】分配菜单</h2>
     <input type="hidden" id="rno" value="${param.rno}">
+    <p align="center"><button id="saveBtn">保存</button></p>
     <table id="menuBox" align="center">
         <tr>
             <td>

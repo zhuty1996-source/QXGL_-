@@ -42,4 +42,11 @@ public class MenuController {
     public void deleteMenu(@Param("mno") int mno){
         service.deleteMenu(mno);
     }
+
+    @RequestMapping("setMenus.do")
+    @ResponseBody
+    public void setMenus(@Param("rno")int rno,@Param("mnos")String mnos){
+        System.out.println(rno+"--"+mnos);
+        service.setMenus(rno,mnos);
+    }
 }
