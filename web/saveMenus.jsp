@@ -108,7 +108,7 @@
 
                 $.post('saveMenus.do',{'rno' : rno,'mnos' : mnos},function () {
                     alert('保存成功');
-                })
+                });
             });
             
         });
@@ -129,7 +129,9 @@
 <body>
     <h2 align="center">为【${param.rname}】分配菜单</h2>
     <input type="hidden" id="rno" value="${param.rno}">
-    <p align="center"><button id="saveBtn">保存</button></p>
+    <p align="center">
+        <button type="button" id="saveBtn">保存</button>
+    </p>
     <table id="menuBox" align="center">
         <tr>
             <td>

@@ -99,7 +99,7 @@
 
                 $.post('saveRoles.do',{'uno':uno,'rnos':rnos},function () {
                     alert('保存成功');
-                })
+                });
 
             });
 
