@@ -17,4 +17,6 @@ public interface MenuService {
     void deleteMenu(int mno);
 
     void setMenus(int rno,String mnos);
+
+    List<Integer> findMenuNosByRole(int rno);
 }

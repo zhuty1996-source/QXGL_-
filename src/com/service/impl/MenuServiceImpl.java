@@ -54,6 +54,12 @@ public class MenuServiceImpl implements MenuService {
         }
     }
 
+    @Override
+    public List<Integer> findMenuNosByRole(int rno) {
+        return dao.findMenuNosByRole(rno);
+    }
+
+
     private void removeMenu(int mno,List<Menu> menus){
         for (int i = 0;i < menus.size();i++){
             Menu menu = menus.get(i);

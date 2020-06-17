@@ -34,4 +34,7 @@ public interface MenuDao {
 
     @Insert("insert into t_role_menu values(#{rno},#{mno})")
     void addRelationship(Map<String,Integer> params);
+
+    @Select("select mno from t_role_menu where rno = #{rno}")
+    List<Integer> findMenuNosByRole(int rno);
 }

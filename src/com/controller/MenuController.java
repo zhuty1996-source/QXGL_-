@@ -43,10 +43,17 @@ public class MenuController {
         service.deleteMenu(mno);
     }
 
-    @RequestMapping("setMenus.do")
+    @RequestMapping("saveMenus.do")
     @ResponseBody
     public void setMenus(@Param("rno")int rno,@Param("mnos")String mnos){
         System.out.println(rno+"--"+mnos);
         service.setMenus(rno,mnos);
     }
+
+    @RequestMapping("yesMenus.do")
+    @ResponseBody
+    public List<Integer> yesMenus(@Param("rno") int rno){
+        return service.findMenuNosByRole(rno);
+    }
+
 }

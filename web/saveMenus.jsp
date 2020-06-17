@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="js/jquery.js"></script>
     <script type="text/javascript">
         $(function () {
             $.post('menuList.do',{},function (menus) {
@@ -85,21 +85,30 @@
                        cancelParent($(this));//选掉当前菜单的父菜单
                    }
                 });
+
+                //查询并默认勾选之前分配的菜单
+                $.post('yesMenus.do',{'rno' : $('#rno').val()},function (mnos) {
+                    for (var i = 0;i<mnos.length;i++){
+                        var mno = mnos[i];
+                        $('input[value="'+mno+'"]').prop('checked',true);
+                    }
+                },'json')
+
             },'json');
             
             //为保存按钮增加事件
             $('#saveBtn').click(function () {
                 var rno = $('#rno').val();
-                var mnos = '';//拼装所有选中的菜单编号
+                var mnos = ''; //拼装所有选中的菜单编号
                 $('#menuBox input:checked').each(function (i,e) {
                     var mno = $(e).val();
                     mnos += mno + ',';
                 });
                 alert(mnos);
 
-                $.post('setMenus.do',{'rno':rno,'mnos':mnos},function (e) {
+                $.post('saveMenus.do',{'rno' : rno,'mnos' : mnos},function () {
                     alert('保存成功');
-                },'json');
+                })
             });
             
         });
