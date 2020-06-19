@@ -95,7 +95,7 @@
                 },'json')
 
             },'json');
-            
+
             //为保存按钮增加事件
             $('#saveBtn').click(function () {
                 var rno = $('#rno').val();
@@ -106,12 +106,29 @@
                 });
                 alert(mnos);
 
-                $.post('saveMenus.do',{'rno' : rno,'mnos' : mnos},function () {
-                    alert('保存成功');
-                });
+                $.ajax({
+                    type: 'post',
+                    url: 'okMenus.do',
+                    data: {'rno':rno,'mnos':mnos},
+                    async: false,
+                    success:function (s) {
+                        alert('保存成功'+s);
+                    },
+                    // error:function (xhr,textStatus,errorThrown) {
+                    //     alert("进入error---");
+                    //     alert("状态码："+xhr.status);
+                    //     alert("状态:"+xhr.readyState);//当前状态,0-未初始化，1-正在载入，2-已经载入，3-数据进行交互，4-完成。
+                    //     alert("错误信息:"+xhr.statusText );
+                    //     alert("返回响应信息："+xhr.responseText );//这里是详细的信息
+                    //     alert("请求状态："+textStatus);
+                    //     alert(errorThrown);
+                    //     alert("请求失败");
+                    // }
+                })
             });
             
         });
+
     </script>
     <style type="text/css">
         ul li{

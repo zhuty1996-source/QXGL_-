@@ -1,5 +1,6 @@
 package com.controller;
 
+import com.alibaba.fastjson.annotation.JSONType;
 import com.domain.Menu;
 import com.service.MenuService;
 import com.service.impl.MenuServiceImpl;
@@ -43,11 +44,12 @@ public class MenuController {
         service.deleteMenu(mno);
     }
 
-    @RequestMapping("saveMenus.do")
+    @RequestMapping("okMenus.do")
     @ResponseBody
-    public void setMenus(@Param("rno")int rno,@Param("mnos")String mnos){
+    public String okMenus(@Param("rno")int rno,@Param("mnos")String mnos){
         System.out.println(rno+"--"+mnos);
         service.setMenus(rno,mnos);
+        return "11111";
     }
 
     @RequestMapping("yesMenus.do")
